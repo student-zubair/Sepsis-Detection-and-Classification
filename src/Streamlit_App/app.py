@@ -137,7 +137,7 @@ st.markdown(
 st.markdown(
     """
     <div style="text-align: center;">
-        <small>🔗 Check out the code on <a href="https://github.com/bhaveshjain2603/Sepsis-Project">GitHub</a></small>
+        <small>🔗 Check out the code on <a href="https://github.com/student-zubair/Sepsis-Detection-and-Classification">GitHub</a></small>
     </div>
     """,
     unsafe_allow_html=True
