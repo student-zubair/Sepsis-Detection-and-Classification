@@ -21,7 +21,7 @@ This project predicts sepsis and classifies it into medical subtypes using machi
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/bhaveshjain2603/Sepsis-Project
+git clone https://github.com/student-zubair/Sepsis-Detection-and_Classification
 cd Streamlit_App
 ```
 
