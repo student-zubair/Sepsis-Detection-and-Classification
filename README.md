@@ -1,66 +1,316 @@
-# 🩸 Sepsis Prediction & Subtype Classification
+# 🩺 Sepsis Management System — Machine Learning + FastAPI + Streamlit
 
-This project predicts sepsis and classifies it into medical subtypes using machine learning (Random Forest, KMeans) and a Streamlit web app interface.
+A complete end-to-end system for **sepsis subtype prediction**, **cluster-based interpretation**, and **interactive visualization**, combining:
 
-## 🔍 Features
+* **ML Models (KMeans + key components)**
+* **FastAPI Backend**
+* **Streamlit Frontend**
+* **LLM-powered interpretation**
+* **Docker support**
 
-- Sepsis classification 
-- Subtype prediction using KMeans clustering
-- Streamlit-based UI
-- AI-generated treatment advice using Gemini API
+---
 
-## 📁 Project Structure
+## 🚀 Project Overview
 
-- `data/` - CSV files used for training and testing
-- `models/` - Serialized ML models (`.pkl`)
-- `src/Streamlit_App/` - Web app (Streamlit)
-- `dev/` - Notebook for training and EDA
+This project provides a scalable ML-driven framework for **Sepsis Subtype Prediction**.
+It enables:
 
-## 🚀 Running the App
+* Predicting sepsis subtype using trained ML models
+* Displaying patient risk factors and comparisons
+* Explaining subtype behaviour using LLM-based narratives
+* Interactive visual dashboards using Streamlit
+* API-driven backend using FastAPI
 
-### 1. Clone the Repository
+This repository is structured as a production-ready system with decoupled **frontend**, **backend**, and **model pipeline**.
 
-```bash
-git clone https://github.com/bhaveshjain2603/Sepsis-Project
-cd Streamlit_App
+---
+
+## 🏗 System Architecture
+
+```
+┌─────────────────┐         ┌──────────────────────┐
+│  Streamlit UI   │◄──────►│  FastAPI Backend      │
+│ (Frontend)      │ API     │ (Model Inference)     │
+└─────────────────┘         └──────────────────────┘
+           │                            │
+           ▼                            ▼
+   User Inputs                    ML Models (.pkl)
+           │                            │
+           └──────────────►─────────────┘
 ```
 
-### 2. Install Dependencies
+---
+
+## 📁 Folder Structure
+
+```
+Sepsis-Project-main/
+│
+├── data/                          # Visualization & clustered data
+├── models/                        # Trained ML models
+│   ├── kmeans_sepsis_model.pkl
+│   └── model_and_key_components.pkl
+│
+├── src/
+│   ├── FastAPI/
+│   │   └── main.py                # Backend API
+│   │
+│   ├── Streamlit_App/
+│       ├── app.py                 # Main frontend UI
+│       ├── results.py             # Subtype comparison & visualization
+│       └── Dockerfile             # Streamlit container image
+│
+├── dev/
+│   └── sepsis_analysis.ipynb      # Notebook for data exploration
+│
+├── requirements.txt
+└── README.md
+```
+
+---
+
+# ⚙️ Installation & Setup
+
+## 1️⃣ Clone the Repository
+
+```bash
+git clone https://github.com/student-zubair/Sepsis-Detection-and-Classification.git
+cd Sepsis-Project-main
+```
+
+## 2️⃣ Create Virtual Environment
+
+```bash
+python -m venv venv
+source venv/bin/activate    # Mac/Linux
+venv\Scripts\activate       # Windows
+```
+
+## 3️⃣ Install Dependencies
 
 ```bash
 pip install -r requirements.txt
 ```
 
-### 3. Run the Server
+---
+
+# 🌐 FastAPI Backend
+
+The backend exposes endpoints for:
+
+* Loading ML models
+* Preprocessing inputs
+* Returning sepsis cluster predictions
+* Generating explanations
+
+### ▶️ Run FastAPI Server
+
+```bash
+cd src/FastAPI
+uvicorn main:app --reload --host 0.0.0.0 --port 8000
+```
+
+### 📍 Main Files
+
+#### `main.py` includes:
+
+* Loading ML model & PCA/scaler
+* Endpoint:
+
+  ```
+  POST /predict
+  ```
+* Returns:
+
+  ```json
+  {
+    "cluster": 2,
+    "interpretation": "LLM generated explanation..."
+  }
+  ```
+
+---
+
+# 🖥 Streamlit Frontend
+
+The Streamlit application provides:
+
+* Patient data input UI
+* API-based subtype prediction
+* Cluster comparison plots
+* LLM explanation panel
+* Risk visualization
+
+### ▶️ Run Streamlit
+
+```bash
+cd src/Streamlit_App
+streamlit run app.py
+```
+
+Streamlit will automatically communicate with the FastAPI backend.
+
+---
+
+## 🐳 Docker Support (Frontend)
+
+Inside `src/Streamlit_App/`:
+
+#### Build image:
+
+```bash
+docker build -t sepsis-streamlit .
+```
+
+#### Run container:
+
+```bash
+docker run -p 8501:8501 sepsis-streamlit
+```
+
+---
+
+# 🧠 Machine Learning Model
+
+Model files:
+
+### 1. `kmeans_sepsis_model.pkl`
+
+* KMeans model used to identify sepsis phenotypes
+* Trained using engineered features
+
+### 2. `model_and_key_components.pkl`
+
+Contains:
+
+* Scaler
+* PCA transformer
+* KMeans
+* Feature set
+
+### Process:
+
+```
+Raw Features
+   ↓
+Scaling
+   ↓
+PCA dimensionality reduction
+   ↓
+KMeans clustering
+   ↓
+Cluster Label + Interpretation
+```
+
+---
+
+# 🔗 API Documentation
+
+### **POST /predict**
+
+**Request:**
+
+```json
+{
+  "HR": 89,
+  "Temp": 38.1,
+  "Platelets": 142,
+  "Resp": 21
+}
+```
+
+**Response:**
+
+```json
+{
+  "cluster": 1,
+  "interpretation": "This subtype shows moderate organ instability..."
+}
+```
+
+---
+
+# 📊 Streamlit Features
+
+### ✔ Live patient input
+
+### ✔ Backend-powered prediction
+
+### ✔ Cluster comparison table
+
+### ✔ LLM-powered subtype narrative
+
+### ✔ Visualization using CSV files:
+
+* `Visualization_Data_Train.csv`
+* `Visualization_Data_Test.csv`
+
+---
+
+# 📘 Development Notebook
+
+`dev/sepsis_analysis.ipynb` includes:
+
+* Exploratory Data Analysis (EDA)
+* Preprocessing
+* PCA visualization
+* Cluster analysis
+* Model saving workflow
+
+---
+
+# 🛠 Technologies Used
+
+### **Frontend**
+
+* Streamlit
+
+### **Backend**
+
+* FastAPI
+* Uvicorn
+
+### **Machine Learning**
+
+* Scikit-learn
+* KMeans
+* PCA
+* StandardScaler
+
+### **LLM Integration**
+
+* Google GenAI
+
+### **Containers**
+
+* Docker
+
+---
+
+# 🧪 Testing
+
+### Test Backend:
+
+```bash
+curl -X POST http://localhost:8000/predict \
+-H "Content-Type: application/json" \
+-d '{"HR":80,"Resp":20,"Platelets":130,"Temp":38}'
+```
+
+### Test Frontend:
 
 ```bash
 streamlit run app.py
 ```
 
-## ⚙️ Tech Stack
-- Frontend: Streamlit (Python-based interactive UI)
-- Backend: FastAPI (for RESTful predictions)
-- ML Models: Random Forest, Logistic Regression, XGBoost, SVM, Decision Tree, KMeans Clustering
-- AI Integration: Gemini API for treatment recommendation
-- Data Handling & Processing: Pandas, Scikit-learn, Imbalanced-learn
+---
 
-## 🔮 Core Features
-- ✅ Predicts if a patient is at risk of developing sepsis
-- 🧬 Classifies the subtype of sepsis using KMeans clustering
-- 💊 Suggests AI-powered treatment plans using Gemini or ChatGPT
-- 📊 Visualizes feature importance for model explainability
-- ⚡ REST API support for model inference via FastAPI
 
-## 📢 Future Enhancements
-- 🚨 Real-time alert system for hospital dashboards
-- 📱 Mobile-friendly responsive design
-- 📁 Patient history tracking and prediction timelines
-- 🧠 More advanced subtype classification with medical datasets
 
-## 🤝 Contributing
-Contributions are welcome! Feel free to:
+# 🙌 Acknowledgements
 
-- 🌟 Star this repository
-- 🐛 Report issues
-- 📬 Suggest enhancements
-- 🔁 Submit pull requests with improvements or ideas
+* Public sepsis datasets
+* Streamlit and FastAPI communities
+
+---
+
